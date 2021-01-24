@@ -20,10 +20,14 @@ public class Keyboard extends JPanel {
 		
 		setLayout(layout);
 		
+		c.weightx = 1;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
+		
 		// 1st line
+		c.gridwidth = 3;
 		addButton("AC", COLOR_DARK_GRAY, c, 0, 0);
-		addButton("+/-", COLOR_DARK_GRAY, c, 1, 0);
-		addButton("%", COLOR_DARK_GRAY, c, 2, 0);
+		c.gridwidth = 1;
 		addButton("/", COLOR_ORANGE, c, 3, 0);
 		
 		// 2nd line
@@ -45,8 +49,9 @@ public class Keyboard extends JPanel {
 		addButton("+", COLOR_ORANGE, c, 3, 3);
 		
 		// 5th line
+		c.gridwidth = 2;
 		addButton("0", COLOR_LIGHT_GRAY, c, 0, 4);
-		addButton("0", COLOR_LIGHT_GRAY, c, 1, 4);
+		c.gridwidth = 1;
 		addButton(",", COLOR_LIGHT_GRAY, c, 2, 4);
 		addButton("=", COLOR_ORANGE, c, 3, 4);
 	}
