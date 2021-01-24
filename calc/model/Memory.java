@@ -60,7 +60,8 @@ public class Memory {
 	}
 
 	private String getOperationResult() {
-		if(lastOperation == null) {
+		if(lastOperation == null 
+				|| lastOperation == CommandType.EQUAL) {
 			return currentText;
 		}
 		
@@ -79,9 +80,9 @@ public class Memory {
 			result = numberBuffer / currentNumber;
 		}
 		
-		String stringResult = Double.toString(result).replace(".", ",");
-		boolean integer = stringResult.endsWith(",0");
-		return integer ? stringResult.replace(",0", "") : stringResult;
+		String text = Double.toString(result).replace(".", ",");
+		boolean integer = text.endsWith(",0");
+		return integer ? text.replace(",0", "") : text;
 	}
 
 	private CommandType commandTypeDetect(String text) {
