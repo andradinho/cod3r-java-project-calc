@@ -50,10 +50,38 @@ public class Memory {
 			currentText = replace ? text : currentText + text;
 			replace = false;
 		} else {
-			// FIXME 
+			replace = true;
+			currentText = getOperationResult();
+			textBuffer = currentText;
+			lastOperation = commandType;
 		}
 		
 		observers.forEach(o -> o.changedValue(getCurrentText()));
+	}
+
+	private String getOperationResult() {
+		if(lastOperation == null) {
+			return currentText;
+		}
+		
+		double numberBuffer = Double.parseDouble(textBuffer.replace(",", "."));
+		double currentNumber = Double.parseDouble(currentText.replace(",", "."));
+		
+		double result = 0;
+		
+		if(lastOperation == CommandType.SUM) {
+			result = numberBuffer + currentNumber;
+		} else if(lastOperation == CommandType.SUB) {
+			result = numberBuffer - currentNumber;
+		} else if(lastOperation == CommandType.MULT) {
+			result = numberBuffer * currentNumber;
+		} else if(lastOperation == CommandType.DIV) {
+			result = numberBuffer / currentNumber;
+		}
+		
+		String stringResult = Double.toString(result).replace(".", ",");
+		boolean integer = stringResult.endsWith(",0");
+		return integer ? stringResult.replace(",0", "") : stringResult;
 	}
 
 	private CommandType commandTypeDetect(String text) {
