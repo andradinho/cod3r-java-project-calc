@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.andradinho.calc.model.Memory;
+
 @SuppressWarnings("serial")
 public class Keyboard extends JPanel implements ActionListener {
 	
@@ -72,7 +74,7 @@ public class Keyboard extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JButton) {
 			JButton button = (JButton) e.getSource();
-			System.out.println(button.getText());
+			Memory.getInstance().commandProcessing(button.getText());
 		}
 	}
 }
