@@ -13,7 +13,10 @@ public class Memory {
 	
 	private final List<MemoryObserver> observers = new ArrayList<>();
 	
+	private CommandType lastOperation = null;
+	private boolean replace = false;
 	private String currentText = "";
+	private String textBuffer = "";
 	
 	private Memory() {
 		
@@ -34,12 +37,20 @@ public class Memory {
 	public void commandProcessing(String text) {
 		
 		CommandType commandType = commandTypeDetect(text);
-		System.out.println(commandType);
 		
-		if("AC".equals(text)) {
+		if(commandType == null) {
+			return;
+		} else if(commandType == CommandType.CLEAR) {
 			currentText = "";
+			textBuffer = "";
+			replace = false;
+			lastOperation = null;
+		} else if(commandType == CommandType.NUMBER 
+				|| commandType == CommandType.COMMA) {
+			currentText = replace ? text : currentText + text;
+			replace = false;
 		} else {
-			currentText += text;
+			// FIXME 
 		}
 		
 		observers.forEach(o -> o.changedValue(getCurrentText()));
@@ -67,7 +78,8 @@ public class Memory {
 				return CommandType.SUB;
 			} else if("=".equals(text)){
 				return CommandType.EQUAL;
-			} else if(",".equals(text)){
+			} else if(",".equals(text) 
+					&& !currentText.contains(",")){
 				return CommandType.COMMA;
 			}
 		}
